@@ -4,10 +4,10 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: nestjs
-
     ports:
-      - "3000:3000"
+      - "3000:3000" # Host_Port : Container_Port => when you open: http://localhost:3000, Docker forwards the request to: Container Port 3000. Reason: Because your application is running inside the container, not on your host machine.
 
+    # Bind Mount Volume
     volumes:
       - ./logs:/app/logs  # Mount the host's ./logs directory to the container's /app/logs. We are not including it in DockerImage, as it wil be lost if the container is removed or recreated, and need to rebuild image for every new entry
       
@@ -19,8 +19,10 @@ services:
     container_name: mongo
     ports:
       - "27017:27017"
+
+    # Named Volume: Persist application data (like databases) in Docker-managed storage, independent of the container's lifecycle(create/delete).
     volumes:
-      - mongo-data:/data/db
+      - mongo-data:/data/db # MongoDB container stores database files in '/data/db', which can be lost after deleting of container. So, instead store it in a Docker-managed volume named 'mongo-data'.
 
   redis:
     image: redis:8-alpine
@@ -60,10 +62,10 @@ services:
     container_name: grafana
 
     ports:
-      - "3001:3000"
+      - "3001:3000" # When you open: http://localhost:3001, Docker forwards the request to: Container Port 3000
 
     depends_on:
       - loki
       
 volumes:
-  mongo-data: # If you stop or remove the MongoDB container the data inside mongo-data is not deleted
+  mongo-data: # Creates the Docker Volume to store the MongoDB data.
