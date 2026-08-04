@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { SchedulerModule } from './scheduler/scheduler.module';
 import { LoggerModule } from './logger/logger.module';
+import { RedisModule } from './redis/redis.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { LoggerModule } from './logger/logger.module';
     AuthModule,
     SchedulerModule,
     LoggerModule,
+    RedisModule,
   ],
 })
 export class AppModule {}

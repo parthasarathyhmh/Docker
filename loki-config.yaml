@@ -1,4 +1,4 @@
-auth_enabled: false
+# This is a Loki configuration file, where loki uses it while running. Like NestJs used .env
 
 server:
   http_listen_port: 3100
@@ -49,7 +49,6 @@ ruler:
 
 frontend:
   encoding: protobuf
-
 
 # By default, Loki will send anonymous, but uniquely-identifiable usage and configuration
 # analytics to Grafana Labs. These statistics are sent to https://stats.grafana.org/

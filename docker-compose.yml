@@ -9,8 +9,8 @@ services:
       - "3000:3000"
 
     volumes:
-      - ./logs:/app/logs  #copy ./logs from host machine <--to--> container's  /app/logs
-
+      - ./logs:/app/logs  # Mount the host's ./logs directory to the container's /app/logs. We are not including it in DockerImage, as it wil be lost if the container is removed or recreated, and need to rebuild image for every new entry
+      
     depends_on:
       - loki
 
@@ -22,6 +22,13 @@ services:
     volumes:
       - mongo-data:/data/db
 
+  redis:
+    image: redis:8-alpine
+    container_name: redis
+
+    ports:
+      - "6379:6379"
+
   loki:
     image: grafana/loki:3.7.0
     container_name: loki
@@ -29,10 +36,10 @@ services:
     ports:
       - "3100:3100"
 
-    command: -config.file=/etc/loki/loki-config.yaml  #The command instruction tells Docker what command to run when the container starts.
+    command: -config.file=/etc/loki/loki-config.yaml  # Tells Loki which configuration file to read.
 
     volumes:
-      - ./loki-config.yaml:/etc/loki/loki-config.yaml
+      - ./loki-config.yaml:/etc/loki/loki-config.yaml # Makes local ./loki-config.yaml available in container  ───────────────► at /etc/loki/loki-config.yaml.
 
   promtail:
     image: grafana/promtail:3.6.11
@@ -59,4 +66,4 @@ services:
       - loki
       
 volumes:
-  mongo-data: #If you stop or remove the MongoDB container the data inside mongo-data is not deleted
+  mongo-data: # If you stop or remove the MongoDB container the data inside mongo-data is not deleted
