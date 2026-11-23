@@ -15,7 +15,7 @@ services:
       - loki
 
   mongo:
-    image: mongo:8
+    image: mongo:8  # image should be in local system or download image from docker hub
     container_name: mongo
     ports:
       - "27017:27017"
@@ -25,14 +25,14 @@ services:
       - mongo-data:/data/db # MongoDB container stores database files in '/data/db', which can be lost after deleting of container. So, instead store it in a Docker-managed volume named 'mongo-data'.
 
   redis:
-    image: redis:8-alpine
+    image: redis:8-alpine  # image should be in local system or download image from docker hub
     container_name: redis
 
     ports:
       - "6379:6379"
 
   loki:
-    image: grafana/loki:3.7.0
+    image: grafana/loki:3.7.0  ## image should be in local system or download image from docker hub
     container_name: loki
 
     ports:
